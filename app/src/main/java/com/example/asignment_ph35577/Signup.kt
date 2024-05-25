@@ -7,7 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -59,7 +59,7 @@ fun SignupScreen() {
                         .align(Alignment.Center)
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.group), 
+                    painter = painterResource(id = R.drawable.group),
                     contentDescription = "Icon",
                     modifier = Modifier
                         .size(70.dp)
@@ -71,17 +71,7 @@ fun SignupScreen() {
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "Hello !",
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray,
-                textAlign = TextAlign.Left,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp)
-            )
-            Text(
-                text = "WELCOME BACK",
+                text = "WELCOME ",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -92,7 +82,13 @@ fun SignupScreen() {
             )
 
             Spacer(modifier = Modifier.height(24.dp))
-
+            OutlinedTextField(
+                value = "",
+                onValueChange = { },
+                label = { Text("Name") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
                 value = "",
                 onValueChange = { },
@@ -115,13 +111,23 @@ fun SignupScreen() {
                 },
                 modifier = Modifier.fillMaxWidth()
             )
-
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = "",
+                onValueChange = { },
+                label = { Text("Comfirm Password") },
+                trailingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.eye2),
+                        contentDescription = "Visibility",
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            TextButton(onClick = { /* TODO: Add action */ }) {
-                Text("Forgot Password", color = Color.Black)
-            }
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -146,6 +152,7 @@ fun SignupScreen() {
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
+                Text("Already have account? ", color = Color.Gray, fontSize = 16.sp, fontWeight = FontWeight.Normal)
                 Text("SIGN UP", color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
         }
@@ -156,6 +163,6 @@ fun SignupScreen() {
 @Composable
 fun SignupScreenPreview() {
     Asignment_PH35577Theme {
-        LoginScreen()
+        SignupScreen()
     }
 }

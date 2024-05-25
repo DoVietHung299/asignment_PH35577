@@ -28,32 +28,36 @@ import com.example.asignment_ph35577.ui.theme.Asignment_PH35577Theme
 class ProductActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val productName = intent.getStringExtra("productName")
+        val productPrice = intent.getStringExtra("productPrice")
+        val productImage = intent.getIntExtra("productImage", 0)
+
         setContent {
             Asignment_PH35577Theme {
-                ProductScreen()
+                ProductScreen(productName ?: "", productPrice ?: "", productImage)
             }
         }
     }
 }
 
 @Composable
-fun ProductScreen() {
+fun ProductScreen(name: String, price: String, imageRes: Int) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(16.dp)
     ) {
-        TopBr() // Gọi hàm TopBar()
+        TpBar() // Gọi hàm TopBar()
         Spacer(modifier = Modifier.height(16.dp))
-        ProductImage()
+        ProductImage(imageRes)
         Spacer(modifier = Modifier.height(16.dp))
-        ProductDetails()
+        ProductDetails(name, price)
     }
 }
 
 @Composable
-fun TopBr() {
+fun TpBar() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -69,8 +73,7 @@ fun TopBr() {
 }
 
 @Composable
-fun ProductImage() {
-    // Replace this with the actual product image
+fun ProductImage(imageRes: Int) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -78,107 +81,52 @@ fun ProductImage() {
             .background(Color.Gray),
         contentAlignment = Alignment.Center
     ) {
-        // This is a placeholder for the product image
         Image(
-            painter = painterResource(id = R.drawable.placeholder_image), // Thay thế với hình ảnh sản phẩm của bạn
+            painter = painterResource(id = imageRes),
             contentDescription = "Product Image",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-        Column(
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(end = 290.dp)
-        ) {
-            // Color selection placeholders
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .background(Color.Gray)
-                    .clip(RoundedCornerShape(50))
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .background(Color(0xFFA0522D)) // Thay thế với màu sắc của bạn
-                    .clip(RoundedCornerShape(50))
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .background(Color(0xFFDEB887)) // Thay thế với màu sắc của bạn
-                    .clip(RoundedCornerShape(50))
-            )
-        }
     }
 }
 
 @Composable
-fun ProductDetails() {
+fun ProductDetails(name: String, price: String) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = "Minimal Stand",
+            text = name,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "$50",
+            text = price,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth().padding(end = 16.dp) // Điều chỉnh khoảng cách sang phải
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_star), // Thay thế với icon sao của bạn
-                    contentDescription = "Rating Star",
-                    tint = Color(0xFFFFD700)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    text = "4.5",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    text = "(50 reviews)",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.Gray
-                )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { /* TODO: Decrease quantity */ }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_minus), // Thay thế với icon trừ của bạn
-                        contentDescription = "Decrease",
-                        modifier = Modifier.size(20.dp) // Tăng kích thước icon
-                    )
-                }
-                Text(
-                    text = "01",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-                IconButton(onClick = { /* TODO: Increase quantity */ }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_plus), // Thay thế với icon cộng của bạn
-                        contentDescription = "Increase",
-                        modifier = Modifier.size(20.dp) // Tăng kích thước icon
-                    )
-                }
-            }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_star),
+                contentDescription = "Rating Star",
+                tint = Color(0xFFFFD700)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "4.5",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "(50 reviews)",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.Gray
+            )
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -194,7 +142,57 @@ fun ProductDetails() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Bookmark Button
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .background(Color.Gray)
+                        .clip(RoundedCornerShape(50))
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Box(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .background(Color(0xFFA0522D))
+                        .clip(RoundedCornerShape(50))
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Box(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .background(Color(0xFFDEB887))
+                        .clip(RoundedCornerShape(50))
+                )
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = { /* TODO: Decrease quantity */ }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_minus),
+                        contentDescription = "Decrease",
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+                Text(
+                    text = "01",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+                IconButton(onClick = { /* TODO: Increase quantity */ }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_plus),
+                        contentDescription = "Increase",
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Button(
                 onClick = { /* TODO: Add bookmark action */ },
                 colors = ButtonDefaults.buttonColors(
@@ -205,13 +203,11 @@ fun ProductDetails() {
                 modifier = Modifier.size(100.dp)
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_bookmark), // Thay thế với icon bookmark của bạn
+                    painter = painterResource(id = R.drawable.ic_bookmark),
                     contentDescription = "Bookmark",
                     modifier = Modifier.size(40.dp)
                 )
             }
-
-            // Add to Cart Button
             Button(
                 onClick = { /* TODO: Add to cart action */ },
                 colors = ButtonDefaults.buttonColors(
@@ -221,7 +217,7 @@ fun ProductDetails() {
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .height(50.dp)
-                    .width(300.dp) // Tăng độ dài của nút
+                    .width(300.dp)
             ) {
                 Text(text = "Add to cart", fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
@@ -233,6 +229,6 @@ fun ProductDetails() {
 @Composable
 fun ProductScreenPreview() {
     Asignment_PH35577Theme {
-        ProductScreen()
+        ProductScreen("Minimal Stand", "$50", R.drawable.placeholder_image)
     }
 }

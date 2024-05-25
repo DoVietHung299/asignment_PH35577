@@ -1,10 +1,12 @@
 package com.example.asignment_ph35577
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -18,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,12 +43,13 @@ class Home : ComponentActivity() {
 @Composable
 fun HomeScreen() {
     Scaffold(
-        bottomBar = { BottomNavigationBar() }
-    ) {
+        bottomBar = { BttomNavigationBar() }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
+                .padding(innerPadding)
                 .padding(16.dp)
         ) {
             TopBar()
@@ -59,6 +63,7 @@ fun HomeScreen() {
 
 @Composable
 fun TopBar() {
+    val context = LocalContext.current
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -81,7 +86,10 @@ fun TopBar() {
             modifier = Modifier.weight(4f)
         )
         Spacer(modifier = Modifier.weight(1f))
-        IconButton(onClick = { /* TODO: Add cart action */ }) {
+        IconButton(onClick = {
+            val intent = Intent(context, MyCart::class.java)
+            context.startActivity(intent)
+        }) {
             Icon(
                 painter = painterResource(id = R.drawable.giohang),
                 contentDescription = "Cart",
@@ -155,12 +163,20 @@ fun ProductGrid() {
 
 @Composable
 fun ProductItem(product: Product) {
+    val context = LocalContext.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
+            .clickable {
+                val intent = Intent(context, ProductActivity::class.java)
+                intent.putExtra("productName", product.name)
+                intent.putExtra("productPrice", product.price)
+                intent.putExtra("productImage", product.imageRes)
+                context.startActivity(intent)
+            }
     ) {
         Image(
             painter = painterResource(id = product.imageRes),
@@ -188,7 +204,8 @@ fun ProductItem(product: Product) {
 }
 
 @Composable
-fun BottomNavigationBar() {
+fun BttomNavigationBar() {
+    val activity = LocalContext.current as ComponentActivity
     BottomNavigation(
         backgroundColor = Color.White,
         contentColor = Color.Black
@@ -214,7 +231,10 @@ fun BottomNavigationBar() {
                 )
             },
             selected = false,
-            onClick = { /* TODO: Add action */ },
+            onClick = {
+                val intent = Intent(activity, Favorite::class.java)
+                activity.startActivity(intent)
+            },
             alwaysShowLabel = false
         )
         BottomNavigationItem(
@@ -238,7 +258,10 @@ fun BottomNavigationBar() {
                 )
             },
             selected = false,
-            onClick = { /* TODO: Add action */ },
+            onClick = {
+                val intent = Intent(activity, MainActivity::class.java)
+                activity.startActivity(intent)
+            },
             alwaysShowLabel = false
         )
     }

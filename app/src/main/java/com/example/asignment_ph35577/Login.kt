@@ -1,5 +1,6 @@
 package com.example.asignment_ph35577
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,10 +8,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +34,8 @@ class Login : ComponentActivity() {
 
 @Composable
 fun LoginScreen() {
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -70,9 +74,18 @@ fun LoginScreen() {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-
             Text(
-                text = "WELCOME",
+                text = "Hello !",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray,
+                textAlign = TextAlign.Left,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp)
+            )
+            Text(
+                text = "WELCOME Back",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -83,13 +96,6 @@ fun LoginScreen() {
             )
 
             Spacer(modifier = Modifier.height(24.dp))
-
-            OutlinedTextField(
-                value = "",
-                onValueChange = { },
-                label = { Text("Name") },
-                modifier = Modifier.fillMaxWidth()
-            )
 
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
@@ -115,22 +121,7 @@ fun LoginScreen() {
                 modifier = Modifier.fillMaxWidth()
             )
 
-
             Spacer(modifier = Modifier.height(8.dp))
-            OutlinedTextField(
-                value = "",
-                onValueChange = { },
-                label = { Text("Comfirm Password") },
-                trailingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.eye2),
-                        contentDescription = "Visibility",
-                        modifier = Modifier.size(24.dp)
-                    )
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
-
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -141,7 +132,10 @@ fun LoginScreen() {
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { /* TODO: Add action */ },
+                onClick = {
+                    val intent = Intent(context, Home::class.java)
+                    context.startActivity(intent)
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Black,
                     contentColor = Color.White
@@ -150,13 +144,16 @@ fun LoginScreen() {
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text("Sign up", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text("Log in", fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             TextButton(
-                onClick = { /* TODO: Add action */ },
+                onClick = {
+                    val intent = Intent(context, Signup::class.java)
+                    context.startActivity(intent)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
@@ -166,13 +163,7 @@ fun LoginScreen() {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Already have an account? ",
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal
-                    )
-                    Text(
-                        text = "SIGN IN",
+                        text = "SIGN UP",
                         color = Color.Black,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold

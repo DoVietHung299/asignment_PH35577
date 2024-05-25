@@ -1,5 +1,6 @@
 package com.example.asignment_ph35577
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,6 +35,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BoardingScreen() {
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -40,7 +44,7 @@ fun BoardingScreen() {
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.hinhnen),
+            painter = painterResource(id = R.drawable.hinhnen), // Thay thế với hình ảnh của bạn
             contentDescription = "Background",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -87,7 +91,10 @@ fun BoardingScreen() {
             )
             Spacer(modifier = Modifier.height(170.dp))
             Button(
-                onClick = { /* TODO: Add action */ },
+                onClick = {
+                    val intent = Intent(context, Login::class.java)
+                    context.startActivity(intent)
+                },
                 shape = MaterialTheme.shapes.medium,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Black,
